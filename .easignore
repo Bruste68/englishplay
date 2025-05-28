@@ -1,0 +1,50 @@
+# Dependencies & build
+node_modules/
+build/
+dist/
+web-build/
+.expo/
+.expo-shared/
+*.log
+
+# Native credentials
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+*.orig.*
+
+# Metro / debug
+.metro-health-check*
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# OS-specific
+.DS_Store
+
+# Env & config
+.env*
+*.tsbuildinfo
+expo-env.d.ts
+
+# IDE/Editor
+.vscode/
+
+# 제외하면 안 되는 것들
+!react-native-whisper/
+!whisper.cpp/
+
+# 실제로 제외해도 되는 프로젝트 폴더
+android/
+ios/
+scripts/
+venv/
+
+# 기타 큰 파일
+*.bin
+*.zip
+*.tar.gz
+test_audio.m4a

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OAuth Callback</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    .loading {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #007bff;
+    }
+    .error {
+      color: red;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .back-button {
+      margin-top: 20px;
+      font-size: 1rem;
+      background-color: #00c851;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="loading">🔐 인증 처리 중입니다...</div>
+
+  <script>
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const queryParams = new URLSearchParams(window.location.search);
+    const token = hashParams.get('access_token');
+    console.log('🧪 Extracted Google access_token:', token);
+
+    const code = queryParams.get('code');
+
+    if (token) {
+      fetch('https://samspeakgo.com/api/oauth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accessToken: token })
+      })
+      .then(res => {
+        console.log("📨 서버 응답 상태코드:", res.status);
+        if (!res.ok) throw new Error("서버 오류 응답: " + res.status); // 🔒 서버가 400/500 응답했을 때도 처리
+        return res.json();
+      })
+      .then(data => {
+        console.log("📨 서버 응답 내용:", data);
+        if (data.token) {
+          localStorage.setItem("jwtToken", data.token);
+          localStorage.setItem("loggedInUser", data.user.email);
+          window.location.href = "/";
+        } else {
+          showError("⚠️ 서버에서 토큰을 받지 못했습니다.");
+        }
+      })
+      .catch(err => {
+        console.error("❌ fetch 실패:", err);
+        showError("⚠️ Google 로그인 처리 실패");
+      });
+    }
+
+    // ✅ 카카오 code → 서버에 전달
+    else if (code) {
+      fetch('https://samspeakgo.com/kakao-token', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem("jwtToken", data.token);
+          localStorage.setItem("loggedInUser", data.user.email || data.user.nickname);
+          window.location.href = "/";
+        } else {
+          showError("⚠️ 서버에서 토큰을 받지 못했습니다.");
+        }
+      })
+      .catch(() => showError("⚠️ 카카오 로그인 처리 실패"));
+    }
+
+    // ✅ 오류 처리
+    else {
+      const error = hashParams.get('error') || queryParams.get('error');
+      if (error) {
+        showError("❌ 인증 오류: " + error);
+      } else {
+        showError("❌ 인증 토큰 또는 코드가 없습니다.");
+      }
+    }
+
+    function showError(message) {
+      document.body.innerHTML += `
+        <div class="error">${message}</div>
+        <button class="back-button" onclick="goBack()">앱으로 돌아가기</button>
+      `;
+    }
+
+    function goBack() {
+      window.location.href = "englishplayondevice://";
+    }
+  </script>
+</body>
+</html>

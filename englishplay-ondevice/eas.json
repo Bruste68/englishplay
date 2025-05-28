@@ -1,0 +1,26 @@
+{
+  "cli": {
+    "version": ">=3.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assemblePlayDebug"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assemblePlayDebug"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assemblePlayRelease"
+      }
+    }
+  }
+}
