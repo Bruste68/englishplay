@@ -88,10 +88,10 @@ android {
 
     productFlavors {
         play {
-            dimension "default"
+            dimension "store"
         }
         amazon {
-            dimension "default"
+            dimension "store"
         }
     }
 
