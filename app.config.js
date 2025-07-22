@@ -44,8 +44,8 @@ module.exports = ({ config }) => {
   return {
     ...config,
     name: IS_DEV ? 'SamSpeakDev' : 'SamSpeakEn',
-    slug: IS_DEV ? 'samspeak-dev' : 'samspeak-en',
-    scheme: IS_DEV ? 'samspeakdev' : 'englishplay',
+    slug: IS_DEV ? 'englishplay-ondevice' : 'englishplay-ondevice',
+    scheme: IS_DEV ? 'englishplay' : 'englishplay',
     android: {
       package: IS_DEV
         ? 'com.bruste68.englishplayondevice'

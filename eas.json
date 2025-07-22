@@ -32,8 +32,8 @@
       "developmentClient": false,
       "android": {
         "ndk": "25.1.8937393",
-  //      "buildType": "apk",
-        "buildType": "app-bundle"
+        "buildType": "apk",
+  //      "buildType": "app-bundle"
       },
       "env": {
         "ENV": "production",
