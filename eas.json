@@ -20,20 +20,25 @@
       }
     },
     "preview": {
+      "developmentClient": true,  // ✅ 이 줄 추가해야 Dev Client 포함됨
       "distribution": "internal",
       "android": {
-        "ndk": "25.1.8937393"
+        "ndk": "25.1.8937393",
+        "buildType": "apk"
       },
       "env": {
-        "EXPO_FLAVOR": "play"
+        "ENV": "preview",
+        "BUILD_ENV": "debug",
+        "EXPO_FLAVOR": "play",
+        "EXPO_PUBLIC_BACKEND_URL": "https://samspeakgo.com/debug-api",
+        "EXPO_PUBLIC_WHISPER_URL": "https://samspeakgo.com/debug-whisper"
       }
     },
     "production": {
       "developmentClient": false,
       "android": {
         "ndk": "25.1.8937393",
-        "buildType": "apk",
-  //      "buildType": "app-bundle"
+        "buildType": "apk"
       },
       "env": {
         "ENV": "production",
